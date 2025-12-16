@@ -16,47 +16,104 @@
 </head>
 <body>
 
-  Units
+  <header>
+    <img src="assets/images/logo.svg" alt="logo">
+    <div>
+      <img src="assets/images/icon-units.svg" alt="Icon Units">
+      <p>Units</p>
+      <img src="assets/images/icon-dropdown.svg" alt="Dropdown" id="header-dropdown-button">
+    </div>
+    <div id="unit-settings-dropdown">
+    <button>Switch to Imperial</button>
+    <button>Switch to Metric</button>
+    <div>
+      <h1>Temperature</h1>
+      <button>Celsius (°C)</button>
+      <button>Fahrenheit (°F)</button>
+    </div>
+    <div>
+      <h1>Wind Speed</h1>
+      <button>km/h</button>
+      <button>mph</button>
+    </div>
+    <div>
+      <h1>Precipitation</h1>
+      <button>Millimeters (mm)</button>
+      <button>Inches (in)</button>
+    </div>
+  </div>
+  </header>
 
-  Switch to Imperial/Metric
+  <h1>How's the sky looking today?</h1>
 
-  Temperature
+  <section id="section-search">
+    <div>
+      <img src="assets/images/icon-search.svg" alt="Icon Search">
+      <input type="text" placeholder="Search for a city, e.g., New York"></input>
+    </div>
+    <button>Search</button>
+  </section>
 
-  Celsius (°C)
-  Fahrenheit (°F)
+  <section id="current-weather">
+    <div>
+      <h1 id="city-name">Berlim</h1>
+      <p id="current-date">Tuesday, Aug 5, 2025</p>
+    </div>
+    <div id="current-temperature">
+      <img src="assets/images/icon-overcast.webp" alt="">
+      <p>20</p>
+    </div>
+  </section>
 
-  Wind Speed
+  <section id="weather-details">
+    <div id="weather-item">
+      <p>Feels like</p>
+      <span>0</span>
+    </div>
+    <div id="weather-item">
+      <p>Humidity</p>
+      <span>0</span>
+    </div>
+    <div id="weather-item">
+      <p>Wind</p>
+      <span>0</span>
+    </div>
+    <div id="weather-item">
+      <p>Precipitation</p>
+      <span>0</span>
+    </div>
+  </section>
 
-  km/h
-  mph
+  <section id="daily-forecast">
+    <h1>Daily forecast</h1>
+    <div id="forecast-days">
+      <div id="div-day">
+        <p>Tue</p>
+        <img src="assets/images/icon-partly-cloudy.webp" alt="">
+        <div>
+          <span>12</span>
+          <span>12</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  Precipitation
-
-  Millimeters (mm)
-  Inches (in)
-
-  How's the sky looking today?
-
-  Search for a city, e.g., New York
-  Search
-
-  Feels like
-  <!-- Insert temperature here -->
-
-  Humidity
-  <!-- Insert humidity here -->
-
-  Wind
-  <!-- Insert wind here -->   
-  
-  Precipitation
-  <!-- Insert precipitation here -->
-
-  Daily forecast
-  <!-- Insert daily forecast for the next 7 days here -->
-
-  Hourly forecast
-  <!-- Insert hourly forecast for the selected day here -->
+  <section id="hourly-forecast">
+    <h1>Hourly forecast</h1>
+    <div>
+      <p>Tuesday</p>
+      <img src="assets/images/icon-dropdown.svg" alt="Dropdow" id="hourly-dropdown-button">
+    </div>
+    <div id="forecast-hours">
+      <div id="div-hour">
+        <div>
+          <img src="assets/images/icon-partly-cloudy.webp" alt="">
+          <p>12 Pm</p>
+        </div>
+        <p>12</p>
+      </div>
+    </div>
+  </section>
 
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
