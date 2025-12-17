@@ -1,24 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
+  <!-- Traduzir Pagina -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
+  <link rel="stylesheet" href="styles/style.css">
   <title>Frontend Mentor | Weather app</title>
-
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
 </head>
 <body>
-
   <header>
     <img src="assets/images/logo.svg" alt="logo">
-    <div>
+    <div id="units-menu-button">
       <img src="assets/images/icon-units.svg" alt="Icon Units">
       <p>Units</p>
       <img src="assets/images/icon-dropdown.svg" alt="Dropdown" id="header-dropdown-button">
@@ -49,38 +43,38 @@
   <section id="section-search">
     <div>
       <img src="assets/images/icon-search.svg" alt="Icon Search">
-      <input type="text" placeholder="Search for a city, e.g., New York"></input>
+      <input type="text" placeholder="Search for a place..."></input>
     </div>
     <button>Search</button>
   </section>
 
   <section id="current-weather">
-    <div>
-      <h1 id="city-name">Berlim</h1>
+    <div id="div-city-info">
+      <h1 id="city-name">Berlim, Germany</h1>
       <p id="current-date">Tuesday, Aug 5, 2025</p>
     </div>
     <div id="current-temperature">
       <img src="assets/images/icon-overcast.webp" alt="">
-      <p>20</p>
+      <p>20°</p>
     </div>
   </section>
 
   <section id="weather-details">
     <div id="weather-item">
-      <p>Feels like</p>
-      <span>0</span>
+      <p>Feels Like</p>
+      <span>0°</span>
     </div>
     <div id="weather-item">
       <p>Humidity</p>
-      <span>0</span>
+      <span>00%</span>
     </div>
     <div id="weather-item">
       <p>Wind</p>
-      <span>0</span>
+      <span>00 km/h</span>
     </div>
     <div id="weather-item">
       <p>Precipitation</p>
-      <span>0</span>
+      <span>0 mm</span>
     </div>
   </section>
 
@@ -99,11 +93,13 @@
   </section>
 
   <section id="hourly-forecast">
-    <h1>Hourly forecast</h1>
-    <div>
-      <p>Tuesday</p>
-      <img src="assets/images/icon-dropdown.svg" alt="Dropdow" id="hourly-dropdown-button">
-    </div>
+    <header id="hourly-forecast-header">
+      <h1>Hourly forecast</h1>
+      <div>
+        <p>Tuesday</p>
+        <img src="assets/images/icon-dropdown.svg" alt="Dropdow" id="hourly-dropdown-button">
+      </div>
+    </header>
     <div id="forecast-hours">
       <div id="div-hour">
         <div>
@@ -117,7 +113,7 @@
 
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
+    Coded by <a href="https://github.com/kaueOliveira">Kaue</a>.
   </div>
 </body>
 </html>
