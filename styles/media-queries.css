@@ -1,0 +1,141 @@
+@media screen and (min-width: 1440px) {
+header {
+    grid-area: "header";
+    width: 85%;
+    margin-top: 3rem;
+  }
+
+  header > img {
+    width: 20rem;
+  }
+
+  #units-menu-button {
+    padding: 1.25rem 1.75rem;
+    font-size: 1.6rem;
+    border-radius: 7px;
+  }
+
+  body > h1 {
+    font-size: 6rem;
+  }
+
+  section {
+    width: auto;
+    margin: 0;
+  }
+
+  #container {
+    height: calc(1190px - 365px);
+    width: 85%;
+    margin: auto;
+    display: flex;
+    flex-flow: column wrap;
+
+    /* border: 1px solid red; */
+  }
+
+  #section-search {
+    margin-top: 6rem !important;
+    margin: auto;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #section-search > div {
+    width: 78.5%;
+    padding: 1.75rem 0.5rem;
+    border-radius: 1rem;
+  }
+
+  input {
+    height: 2rem;
+  }
+
+  input::placeholder {
+    font-size: 2rem;
+  }
+
+  #section-search > button {
+    width: 17%;
+    margin: 0;
+    padding: 1.5rem 0rem;
+    border-radius: 1rem;
+
+    font-size: 2rem;
+    font-weight: 500;
+  }
+
+  #current-weather {
+    height: 32rem;
+    width: 89.5rem;
+    margin-top: 5rem;
+    background-image: url("../assets/images/bg-today-large.svg");
+  }
+
+  #weather-details {
+    width: 89.5rem;
+    height: fit-content;
+    margin-top: 4rem;
+  }
+
+  #weather-details > div {
+    width: 20rem;
+    height: 12.5rem;
+
+    border-radius: 1.25rem;
+  }
+
+  #daily-forecast {
+    width: 89.5rem;
+    margin-top: 5rem;
+    /* border: 1px solid red; */
+  }
+
+  #daily-forecast > h1 {
+    font-size: 2.1rem;
+  }
+
+  #forecast-days > div {
+    width: 11rem;
+    height: 18rem;
+    margin-top: 2rem;
+
+    border-radius: 1.2rem;
+  }
+
+  #forecast-days > div > p {
+    font-size: 2rem;
+  }
+
+  #div-day > div {
+    font-size: 1.8rem;
+  }
+
+  /*  */
+
+  #hourly-forecast {
+    width: 36rem;
+    margin-top: 5rem;
+  }
+
+  #hourly-forecast-header {
+    padding-top: 0;
+  }
+
+  #div-hour {
+    height: 6.6rem;
+    border-radius: 0.75rem;
+  }
+
+  #div-hour > div {
+    font-size: 2.2rem;
+  }
+
+  #div-hour > p {
+    font-size: 2rem;
+    margin-right: 2rem;
+  }
+}

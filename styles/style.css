@@ -93,6 +93,10 @@ section {
   margin: auto;
 }
 
+#section-search {
+    max-width: 70rem;
+}
+
 #section-search > div {
   padding: 1rem 0.5rem;
   border-radius: 0.5rem;
@@ -254,9 +258,13 @@ input::placeholder {
   width: 6rem;
 }
 
-#forecast-days {
-  /* border: 1px solid red; */
+#forecast-days {  
   margin-top: 1rem;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #forecast-days > div {
@@ -275,7 +283,7 @@ input::placeholder {
 
 #forecast-days > div > p {
   font-size: 1.7rem;
-  color: var(--Neutral-200);
+  color: var(--Neutral-0);
 }
 
 #div-day > div {
@@ -288,7 +296,7 @@ input::placeholder {
 
   font-size: 1.6rem;
   font-weight: 600;
-  color: var(--Neutral-300);
+  color: var(--Neutral-200);
 }
 
 #hourly-forecast {
@@ -305,6 +313,7 @@ input::placeholder {
 
 #hourly-forecast-header > h1 {
   font-family: "DmSans";
+  letter-spacing: 1px;
   color: var(--Neutral-200);
 }
 
@@ -367,4 +376,8 @@ input::placeholder {
     margin-right: 1rem;
     font-size: 1.7rem;
     color: var(--Neutral-200);
+}
+
+.attribution {
+  margin-top: 2rem;
 }

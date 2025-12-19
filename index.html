@@ -1,119 +1,227 @@
 <!DOCTYPE html>
-<html lang="en"> 
-  <!-- Traduzir Pagina -->
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  <link rel="stylesheet" href="styles/style.css">
-  <title>Frontend Mentor | Weather app</title>
-</head>
-<body>
-  <header>
-    <img src="assets/images/logo.svg" alt="logo">
-    <div id="units-menu-button">
-      <img src="assets/images/icon-units.svg" alt="Icon Units">
-      <p>Units</p>
-      <img src="assets/images/icon-dropdown.svg" alt="Dropdown" id="header-dropdown-button">
-    </div>
-    <div id="unit-settings-dropdown">
-    <button>Switch to Imperial</button>
-    <button>Switch to Metric</button>
-    <div>
-      <h1>Temperature</h1>
-      <button>Celsius (°C)</button>
-      <button>Fahrenheit (°F)</button>
-    </div>
-    <div>
-      <h1>Wind Speed</h1>
-      <button>km/h</button>
-      <button>mph</button>
-    </div>
-    <div>
-      <h1>Precipitation</h1>
-      <button>Millimeters (mm)</button>
-      <button>Inches (in)</button>
-    </div>
-  </div>
-  </header>
-
-  <h1>How's the sky looking today?</h1>
-
-  <section id="section-search">
-    <div>
-      <img src="assets/images/icon-search.svg" alt="Icon Search">
-      <input type="text" placeholder="Search for a place..."></input>
-    </div>
-    <button>Search</button>
-  </section>
-
-  <section id="current-weather">
-    <div id="div-city-info">
-      <h1 id="city-name">Berlim, Germany</h1>
-      <p id="current-date">Tuesday, Aug 5, 2025</p>
-    </div>
-    <div id="current-temperature">
-      <img src="assets/images/icon-overcast.webp" alt="">
-      <p>20°</p>
-    </div>
-  </section>
-
-  <section id="weather-details">
-    <div id="weather-item">
-      <p>Feels Like</p>
-      <span>0°</span>
-    </div>
-    <div id="weather-item">
-      <p>Humidity</p>
-      <span>00%</span>
-    </div>
-    <div id="weather-item">
-      <p>Wind</p>
-      <span>00 km/h</span>
-    </div>
-    <div id="weather-item">
-      <p>Precipitation</p>
-      <span>0 mm</span>
-    </div>
-  </section>
-
-  <section id="daily-forecast">
-    <h1>Daily forecast</h1>
-    <div id="forecast-days">
-      <div id="div-day">
-        <p>Tue</p>
-        <img src="assets/images/icon-partly-cloudy.webp" alt="">
-        <div>
-          <span>12</span>
-          <span>12</span>
-        </div>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/media-queries.css" />
+    <title>Frontend Mentor | Weather app</title>
+  </head>
+  <body>
+    <header>
+      <img src="assets/images/logo.svg" alt="logo" />
+      <div id="units-menu-button">
+        <img src="assets/images/icon-units.svg" alt="Icon Units" />
+        <p>Units</p>
+        <img
+          src="assets/images/icon-dropdown.svg"
+          alt="Dropdown"
+          id="header-dropdown-button"
+        />
       </div>
-    </div>
-  </section>
-
-  <section id="hourly-forecast">
-    <header id="hourly-forecast-header">
-      <h1>Hourly forecast</h1>
-      <div>
-        <p>Tuesday</p>
-        <img src="assets/images/icon-dropdown.svg" alt="Dropdow" id="hourly-dropdown-button">
+      <div id="unit-settings-dropdown">
+        <button>Switch to Imperial</button>
+        <button>Switch to Metric</button>
+        <div>
+          <h1>Temperature</h1>
+          <button>Celsius (°C)</button>
+          <button>Fahrenheit (°F)</button>
+        </div>
+        <div>
+          <h1>Wind Speed</h1>
+          <button>km/h</button>
+          <button>mph</button>
+        </div>
+        <div>
+          <h1>Precipitation</h1>
+          <button>Millimeters (mm)</button>
+          <button>Inches (in)</button>
+        </div>
       </div>
     </header>
-    <div id="forecast-hours">
-      <div id="div-hour">
-        <div>
-          <img src="assets/images/icon-partly-cloudy.webp" alt="">
-          <p>12 Pm</p>
-        </div>
-        <p>12</p>
-      </div>
-    </div>
-  </section>
 
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
-    Coded by <a href="https://github.com/kaueOliveira">Kaue</a>.
-  </div>
-</body>
+    <h1>How's the sky looking today?</h1>
+
+    <section id="section-search">
+      <div>
+        <img src="assets/images/icon-search.svg" alt="Icon Search" />
+        <input type="text" placeholder="Search for a place..." />
+      </div>
+      <button>Search</button>
+    </section>
+
+    <div id="container">
+      <section id="current-weather">
+        <div id="div-city-info">
+          <h1 id="city-name">Berlim, Germany</h1>
+          <p id="current-date">Tuesday, Aug 5, 2025</p>
+        </div>
+        <div id="current-temperature">
+          <img src="assets/images/icon-overcast.webp" alt="" />
+          <p>20°</p>
+        </div>
+      </section>
+      <section id="weather-details">
+        <div id="weather-item">
+          <p>Feels Like</p>
+          <span>0°</span>
+        </div>
+        <div id="weather-item">
+          <p>Humidity</p>
+          <span>00%</span>
+        </div>
+        <div id="weather-item">
+          <p>Wind</p>
+          <span>00 km/h</span>
+        </div>
+        <div id="weather-item">
+          <p>Precipitation</p>
+          <span>0 mm</span>
+        </div>
+      </section>
+      <section id="daily-forecast">
+        <h1>Daily forecast</h1>
+        <div id="forecast-days">
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+          <div id="div-day">
+            <p>Tue</p>
+            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+            <div>
+              <span>12</span>
+              <span>12</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="hourly-forecast">
+        <header id="hourly-forecast-header">
+          <h1>Hourly forecast</h1>
+          <div>
+            <p>Tuesday</p>
+            <img
+              src="assets/images/icon-dropdown.svg"
+              alt="Dropdow"
+              id="hourly-dropdown-button"
+            />
+          </div>
+        </header>
+        <div id="forecast-hours">
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+          <div id="div-hour">
+            <div>
+              <img src="assets/images/icon-partly-cloudy.webp" alt="" />
+              <p>12 Pm</p>
+            </div>
+            <p>12</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="attribution">
+      Coded by <a href="https://github.com/kaueOliveira">Kauê Oliveira</a>.
+    </div>
+  </body>
 </html>
