@@ -262,9 +262,11 @@ input::placeholder {
   margin-top: 1rem;
 
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
+
+  gap: 2rem;
 }
 
 #forecast-days > div {
