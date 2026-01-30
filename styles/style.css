@@ -288,7 +288,7 @@ input::placeholder {
   color: var(--Neutral-0);
 }
 
-#div-day > div {
+.div-day > div {
   width: 75%;
 
   display: flex;
@@ -345,7 +345,7 @@ input::placeholder {
   padding-bottom: 2rem;
 }
 
-#div-hour {
+.div-hour {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -357,8 +357,8 @@ input::placeholder {
   outline: 1px solid var(--Neutral-600);
 }
 
-#div-hour > div {
-  width: 12rem;
+.div-hour > div {
+  width: 13rem;
 
   display: flex;
   flex-flow: row nowrap;
@@ -369,12 +369,12 @@ input::placeholder {
   color: var(--Neutral-200);
 }
 
-#div-hour > div > img {
+.div-hour > div > img {
   width: 5rem;
   margin-left: 1rem;
 }
 
-#div-hour > p {
+.div-hour > p {
     margin-right: 1rem;
     font-size: 1.7rem;
     color: var(--Neutral-200);
