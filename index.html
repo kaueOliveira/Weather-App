@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -52,100 +52,116 @@
     <section id="section-search">
       <div id="div-search">
         <img src="assets/images/icon-search.svg" alt="Icon Search" />
-        <input type="text" placeholder="Search for a place..." id="input-text"/>
+        <input
+          type="text"
+          placeholder="Search for a place..."
+          id="input-text"
+        />
       </div>
       <button id="button-search">Search</button>
-      <div id="results">
-
-      </div>
+      <div id="results"></div>
     </section>
 
     <div id="container">
       <section id="current-weather">
         <div id="div-city-info">
-          <h1 id="city-name">Berlim, Germany</h1>
-          <p id="current-date">Tuesday, Aug 5, 2025</p>
+          <h1 id="city-name"></h1>
+          <p id="current-date"></p>
         </div>
         <div id="current-temperature">
-          <img src="assets/images/icon-overcast.webp" alt="" id="current-weather-icon"/>
-          <p id="temperature">20°</p>
+          <img
+            src=""
+            alt=""
+            id="current-weather-icon"
+          />
+          <p id="temperature"></p>
+        </div>
+
+        <div class="loading">
+          Loading...
+          <span class="dots">
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+          </span>
         </div>
       </section>
+
       <section id="weather-details">
         <div id="weather-item">
           <p>Feels Like</p>
-          <span id="feels-like-value">0°</span>
+          <span id="feels-like-value">_</span>
         </div>
         <div id="weather-item">
           <p>Humidity</p>
-          <span id="humidity-value">00%</span>
+          <span id="humidity-value">_</span>
         </div>
         <div id="weather-item">
           <p>Wind</p>
-          <span id="wind-speed-value">00 km/h</span>
+          <span id="wind-speed-value">_</span>
         </div>
         <div id="weather-item">
           <p>Precipitation</p>
-          <span id="precipitation-value">0 mm</span>
+          <span id="precipitation-value">_</span>
         </div>
       </section>
       <section id="daily-forecast">
         <h1>Daily forecast</h1>
         <div id="forecast-days">
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
           <div class="div-day">
-            <p class="current-day">Tue</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" class="current-day-image"/>
+            <p class="current-day"></p>
+            <img src="" alt="" class="current-day-image" />
             <div>
-              <span class="temperature-max">12</span>
-              <span class="temperature-min">12</span>
+              <span class="temperature-max"></span>
+              <span class="temperature-min"></span>
             </div>
           </div>
         </div>
@@ -154,7 +170,7 @@
         <header id="hourly-forecast-header">
           <h1>Hourly forecast</h1>
           <div id="div-choose-day">
-            <p id="chosen-day">Tuesday</p>
+            <p id="chosen-day">-</p>
             <img
               src="assets/images/icon-dropdown.svg"
               alt="Dropdow"
@@ -165,59 +181,91 @@
         <div id="forecast-hours">
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
           <div class="div-hour">
             <div>
-              <img src="assets/images/icon-partly-cloudy.webp" alt="" class="hour-image" />
-              <p class="hour">12 Pm</p>
+              <img
+                src=""
+                alt=""
+                class="hour-image"
+              />
+              <p class="hour"></p>
             </div>
-            <p class="time-temperature">12</p>
+            <p class="time-temperature"></p>
           </div>
         </div>
       </section>

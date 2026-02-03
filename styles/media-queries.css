@@ -142,4 +142,8 @@ header {
     font-size: 2rem;
     margin-right: 2rem;
   }
+
+  .loading {
+    top: -8rem;
+  }
 }

@@ -2,6 +2,8 @@ const buttonSearch = document.getElementById("button-search");
 const inputText = document.getElementById("input-text");
 const results = document.getElementById("results");
 
+const loadingElement = document.querySelector(".loading");
+
 const currentDate = document.getElementById("current-date");
 const locate = document.getElementById("city-name");
 const currentWeatherIcon = document.getElementById("current-weather-icon");
@@ -192,10 +194,14 @@ function showResults(arrayResults) {
     results.appendChild(divResult);
 
     divResult.addEventListener("click", (evt) => {
+      loadingElement.style.display = "none";
+
       const chosenPlace = arrayResults[evt.target.children[1].id];
 
       const lat = chosenPlace.latitude;
       const long = chosenPlace.longitude;
+
+      searchForWeather(lat, long);
 
       locate.textContent = `${chosenPlace.name}, ${chosenPlace.country}`;
 
@@ -203,8 +209,6 @@ function showResults(arrayResults) {
       currentDate.textContent = stringcurrentDate;
 
       chosenDay.textContent = stringcurrentDate.split(",")[0];
-
-      searchForWeather(lat, long);
 
       inputText.value = "";
       results.innerHTML = "";
@@ -215,3 +219,5 @@ function showResults(arrayResults) {
 }
 
 //pegar localização atual no inicio
+//Adicionar animações
+//Alt das imagens
