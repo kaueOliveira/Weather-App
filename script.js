@@ -1,7 +1,6 @@
-let lat;
-let long;
-
-// const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const buttonSearch = document.getElementById("button-search");
+const inputText = document.getElementById("input-text");
+const results = document.getElementById("results");
 
 const currentDate = document.getElementById("current-date");
 const locate = document.getElementById("city-name");
@@ -19,16 +18,31 @@ const chosenDay = document.getElementById("chosen-day");
 
 const forecastHourly = document.querySelectorAll(".div-hour");
 
-async function searchForWeather() {
-  const urlWeather = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true&hourly=apparent_temperature,relative_humidity_2m,precipitation,weathercode&daily=temperature_2m_min,temperature_2m_max,weathercode&timezone=auto`;
+async function searchForWeather(lat, long) {
+  const urlWeather = `https://api.open-meteo.com/v1/forecast
+?latitude=${lat}
+&longitude=${long}
+&current_weather=true
+&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weathercode
+&daily=temperature_2m_min,temperature_2m_max,weathercode
+&timezone=auto`;
+
   try {
     const weatherResponse = await fetch(urlWeather);
     const weatherData = await weatherResponse.json();
 
-    const feelsLike = weatherData.hourly.apparent_temperature[0];
-    const humidity = weatherData.hourly.relative_humidity_2m[0];
+    console.log(horaTimezone(weatherData.timezone))
+    const feelsLike =
+      weatherData.hourly.apparent_temperature[
+        horaTimezone(weatherData.timezone)
+      ];
+    const humidity =
+      weatherData.hourly.relative_humidity_2m[
+        horaTimezone(weatherData.timezone)
+      ];
     const windSpeed = weatherData.current_weather.windspeed;
-    const precipitation = weatherData.hourly.precipitation[0];
+    const precipitation =
+      weatherData.hourly.precipitation[horaTimezone(weatherData.timezone)];
     const temperature = weatherData.current_weather.temperature;
 
     currentWeatherIcon.src = `assets/images/${getWeatherIcon(
@@ -57,14 +71,14 @@ async function searchForWeather() {
         weatherData.daily.temperature_2m_max[i],
       )}°`;
     });
-    
+
     forecastHourly.forEach((divHour, i) => {
       divHour.querySelector(".hour").textContent = formatHour(
-        weatherData.hourly.time[i],
+        weatherData.hourly.time[horaTimezone(weatherData.timezone) + i],
       );
 
       divHour.querySelector(".time-temperature").innerHTML =
-        `${Math.round(weatherData.hourly.apparent_temperature[i])}°`;
+        `${Math.round(weatherData.hourly.temperature_2m[horaTimezone(weatherData.timezone) + i])}°`;
 
       divHour.querySelector(".hour-image").src =
         `assets/images/${getWeatherIcon(weatherData.hourly.weathercode[i])}`;
@@ -76,33 +90,21 @@ async function searchForWeather() {
 
 async function searchForPlace(name) {
   const locationName = name;
-
-  const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=1&language=us&format=json`;
-
+  // const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=1&language=us&format=json`;
+  const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=5&language=us&format=json`;
   try {
     const locationResponse = await fetch(urlLocation);
     const locationData = await locationResponse.json();
 
-    lat = locationData.results[0].latitude;
-    long = locationData.results[0].longitude;
-
-    const country = locationData.results[0].country;
-
-    const stringcurrentDate = getTodayBYCountry(
-      locationData.results[0].timezone,
-    );
-    locate.textContent = `${name}, ${country}`;
-    currentDate.textContent = stringcurrentDate;
-
-    chosenDay.textContent = stringcurrentDate.split(",")[0];
-
-    searchForWeather();
+    showResults(locationData.results);
   } catch (error) {
     console.log("Erro");
   }
 }
 
-searchForPlace("paris");
+inputText.addEventListener("input", () => {
+  searchForPlace(inputText.value);
+});
 
 function getTodayBYCountry(timeZone) {
   return new Intl.DateTimeFormat("en-us", {
@@ -136,6 +138,12 @@ function formatHour(dateString) {
   return `${formattedHours} ${suffix}`;
 }
 
+function horaTimezone(timezone) {
+  const agora = new Date().toLocaleString("en-US", { timeZone: timezone });
+  const hora = new Date(agora).getHours();
+  return hora;
+}
+
 function getWeatherIcon(code) {
   // Céu limpo / poucas nuvens
   if (code === 0) return "icon-sunny.webp";
@@ -161,3 +169,49 @@ function getWeatherIcon(code) {
   // Fallback
   return "icon-overcast.webp";
 }
+
+function showResults(arrayResults) {
+  results.innerHTML = "";
+
+  arrayResults.forEach((result, i) => {
+    const divResult = document.createElement("div");
+    divResult.className = "div-result";
+
+    const flagImg = document.createElement("img");
+    flagImg.src = `https://flagcdn.com/24x18/${result.country_code.toLowerCase()}.png`;
+    flagImg.alt = `${result.country} flag`;
+    flagImg.style.marginRight = "8px";
+
+    const cityAndCountry = document.createElement("p");
+    cityAndCountry.id = i;
+    cityAndCountry.textContent = `${result.name} - ${result.admin1}`;
+
+    divResult.appendChild(flagImg);
+    divResult.appendChild(cityAndCountry);
+
+    results.appendChild(divResult);
+
+    divResult.addEventListener("click", (evt) => {
+      const chosenPlace = arrayResults[evt.target.children[1].id];
+
+      const lat = chosenPlace.latitude;
+      const long = chosenPlace.longitude;
+
+      locate.textContent = `${chosenPlace.name}, ${chosenPlace.country}`;
+
+      const stringcurrentDate = getTodayBYCountry(chosenPlace.timezone);   
+      currentDate.textContent = stringcurrentDate;
+
+      chosenDay.textContent = stringcurrentDate.split(",")[0];
+
+      searchForWeather(lat, long);
+
+      inputText.value = "";
+      results.innerHTML = "";
+    });
+  });
+
+  results.style.display = "flex";
+}
+
+//pegar localização atual no inicio
