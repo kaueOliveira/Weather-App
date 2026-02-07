@@ -33,7 +33,9 @@ async function searchForWeather(lat, long) {
     const weatherResponse = await fetch(urlWeather);
     const weatherData = await weatherResponse.json();
 
-    console.log(horaTimezone(weatherData.timezone))
+    loadingElement.style.display = "none";
+    console.log(weatherData)
+
     const feelsLike =
       weatherData.hourly.apparent_temperature[
         horaTimezone(weatherData.timezone)
@@ -194,7 +196,7 @@ function showResults(arrayResults) {
     results.appendChild(divResult);
 
     divResult.addEventListener("click", (evt) => {
-      loadingElement.style.display = "none";
+      // loadingElement.style.display = "none";
 
       const chosenPlace = arrayResults[evt.target.children[1].id];
 
@@ -205,7 +207,7 @@ function showResults(arrayResults) {
 
       locate.textContent = `${chosenPlace.name}, ${chosenPlace.country}`;
 
-      const stringcurrentDate = getTodayBYCountry(chosenPlace.timezone);   
+      const stringcurrentDate = getTodayBYCountry(chosenPlace.timezone);
       currentDate.textContent = stringcurrentDate;
 
       chosenDay.textContent = stringcurrentDate.split(",")[0];
@@ -218,6 +220,29 @@ function showResults(arrayResults) {
   results.style.display = "flex";
 }
 
-//pegar localização atual no inicio
+async function getCity(lat, long) {
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`
+  ); 
+  const data = await response.json();
+  console.log(data)
+  return `${data.address.city || data.address.town || data.address.village}, ${data.address.country}`;
+}
+
+if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition( async (position) => {
+    const currentLat = position.coords.latitude;
+    const currentLong = position.coords.longitude;
+
+    const currentCity = await getCity(currentLat, currentLong);
+    locate.textContent = currentCity;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    currentDate.textContent = getTodayBYCountry(timezone);
+    chosenDay.textContent = getTodayBYCountry(timezone).split(",")[0];
+    searchForWeather(currentLat, currentLong);
+  });
+}
 //Adicionar animações
+//Traduzir
+//Usar teclado
 //Alt das imagens
