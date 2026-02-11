@@ -18,7 +18,17 @@ const forecastDays = document.querySelectorAll(".div-day");
 
 const chosenDay = document.getElementById("chosen-day");
 
+const sectionForecastHouly = document.getElementById("hourly-forecast");
 const forecastHourly = document.querySelectorAll(".div-hour");
+
+const weekDaysContainer = document.getElementById("week-days-container");
+const dayItem = document.querySelectorAll(".div-day-item");
+const itemName = document.querySelectorAll(".item-name");
+
+const btnChooseDay = document.getElementById("div-choose-day");
+const hourlyDropdownButton = document.getElementById("hourly-dropdown-button");
+
+let weatherData;
 
 async function searchForWeather(lat, long) {
   const urlWeather = `https://api.open-meteo.com/v1/forecast
@@ -31,11 +41,9 @@ async function searchForWeather(lat, long) {
 
   try {
     const weatherResponse = await fetch(urlWeather);
-    const weatherData = await weatherResponse.json();
+    weatherData = await weatherResponse.json();
 
     loadingElement.style.display = "none";
-    console.log(weatherData)
-
     const feelsLike =
       weatherData.hourly.apparent_temperature[
         horaTimezone(weatherData.timezone)
@@ -62,6 +70,7 @@ async function searchForWeather(lat, long) {
     forecastDays.forEach((day, i) => {
       day.querySelector(".current-day").textContent = next7Days(
         weatherData.daily.time,
+        true,
       )[i];
 
       day.querySelector(".current-day-image").src =
@@ -76,26 +85,39 @@ async function searchForWeather(lat, long) {
       )}°`;
     });
 
-    forecastHourly.forEach((divHour, i) => {
-      divHour.querySelector(".hour").textContent = formatHour(
-        weatherData.hourly.time[horaTimezone(weatherData.timezone) + i],
-      );
-
-      divHour.querySelector(".time-temperature").innerHTML =
-        `${Math.round(weatherData.hourly.temperature_2m[horaTimezone(weatherData.timezone) + i])}°`;
-
-      divHour.querySelector(".hour-image").src =
-        `assets/images/${getWeatherIcon(weatherData.hourly.weathercode[i])}`;
-    });
+    getForecastHourly(0);
   } catch (error) {
     console.log("Erro");
   }
 }
 
-async function searchForPlace(name) {
-  const locationName = name;
-  // const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=1&language=us&format=json`;
+inputText.addEventListener("input", () => {
+  searchForPlace(inputText.value, false);
+});
+
+dayItem.forEach((item) => {
+  item.addEventListener("click", (evt) => {
+    const arrayPostion = evt.target.id.split("-")[1];
+    chosenDay.textContent = evt.target.children[0].textContent;
+    console.log(chosenDay);
+    getForecastHourly(Number(arrayPostion));
+    toggleHourlyDropdown();
+  });
+});
+
+btnChooseDay.addEventListener("click", (evt) => {
+  toggleHourlyDropdown();
+  const arrayDays = next7Days(weatherData.daily.time, false);
+
+  arrayDays.forEach((day, i) => {
+    dayItem[i].id = `day-${i * 24}`;
+    itemName[i].textContent = day;
+  });
+});
+
+async function searchForPlace(locationName) {
   const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=5&language=us&format=json`;
+
   try {
     const locationResponse = await fetch(urlLocation);
     const locationData = await locationResponse.json();
@@ -106,9 +128,33 @@ async function searchForPlace(name) {
   }
 }
 
-inputText.addEventListener("input", () => {
-  searchForPlace(inputText.value);
-});
+function getForecastHourly(position) {
+  forecastHourly.forEach((divHour, i) => {
+    divHour.querySelector(".hour").textContent = formatHour(
+      weatherData.hourly.time[position + i],
+    );
+
+    divHour.querySelector(".time-temperature").innerHTML =
+      `${Math.round(weatherData.hourly.temperature_2m[position + i])}°`;
+
+    divHour.querySelector(".hour-image").src =
+      `assets/images/${getWeatherIcon(weatherData.hourly.weathercode[position + i])}`;
+  });
+}
+
+function toggleHourlyDropdown() {
+  hourlyDropdownButton.classList.toggle("rotated");
+
+  if (hourlyDropdownButton.classList.contains("rotated")) {
+    hourlyDropdownButton.style.transform = `rotate(180deg)`;
+    weekDaysContainer.style.height = "29.5rem";
+    weekDaysContainer.style.outline = "2px solid var(--Neutral-600)";
+  } else {
+    hourlyDropdownButton.style.transform = `rotate(0deg)`;
+    weekDaysContainer.style.height = "0";
+    weekDaysContainer.style.outline = "none";
+  }
+}
 
 function getTodayBYCountry(timeZone) {
   return new Intl.DateTimeFormat("en-us", {
@@ -120,13 +166,13 @@ function getTodayBYCountry(timeZone) {
   }).format(new Date());
 }
 
-function next7Days(datas) {
+function next7Days(datas, isShort) {
   return datas.map((data) => {
     const [ano, mes, dia] = data.split("-");
     const date = new Date(ano, mes - 1, dia);
 
     return new Intl.DateTimeFormat("en-us", {
-      weekday: "short",
+      weekday: isShort == true ? "short" : "long",
     }).format(date);
   });
 }
@@ -196,8 +242,6 @@ function showResults(arrayResults) {
     results.appendChild(divResult);
 
     divResult.addEventListener("click", (evt) => {
-      // loadingElement.style.display = "none";
-
       const chosenPlace = arrayResults[evt.target.children[1].id];
 
       const lat = chosenPlace.latitude;
@@ -220,17 +264,19 @@ function showResults(arrayResults) {
   results.style.display = "flex";
 }
 
+function selectDay() {}
+
 async function getCity(lat, long) {
   const response = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`
-  ); 
+    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`,
+  );
   const data = await response.json();
-  console.log(data)
+
   return `${data.address.city || data.address.town || data.address.village}, ${data.address.country}`;
 }
 
 if ("geolocation" in navigator) {
-  navigator.geolocation.getCurrentPosition( async (position) => {
+  navigator.geolocation.getCurrentPosition(async (position) => {
     const currentLat = position.coords.latitude;
     const currentLong = position.coords.longitude;
 
@@ -244,5 +290,9 @@ if ("geolocation" in navigator) {
 }
 //Adicionar animações
 //Traduzir
-//Usar teclado
+//Usar teclado e search
 //Alt das imagens
+//Imagens dia e noite
+//Layout mobile
+//descolar scrollbar
+//Undefined em nome de país
