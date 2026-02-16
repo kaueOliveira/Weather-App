@@ -27,22 +27,40 @@
         />
       </div>
       <div id="unit-settings-dropdown">
-        <button>Switch to Imperial</button>
-        <button>Switch to Metric</button>
-        <div>
+        <button id="switch-imperial">Switch to Imperial</button>
+        <button id="switch-metric">Switch to Metric</button>
+        <div id="div-temperature-units">
           <h1>Temperature</h1>
-          <button>Celsius (°C)</button>
-          <button>Fahrenheit (°F)</button>
+          <button class="checked" id="celsius">
+            Celsius (°C)
+            <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
+          </button>
+          <button id="fahrenheit">
+            Fahrenheit (°F)
+            <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
+          </button>
         </div>
-        <div>
+        <div id="div-speed-units">
           <h1>Wind Speed</h1>
-          <button>km/h</button>
-          <button>mph</button>
+          <button class="checked" id="kmh">
+            km/h
+            <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
+          </button>
+          <button id="mph">
+            mph
+            <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
+          </button>
         </div>
-        <div>
+        <div id="div-length-units">
           <h1>Precipitation</h1>
-          <button>Millimeters (mm)</button>
-          <button>Inches (in)</button>
+          <button class="checked" id="mm">
+            Millimeters (mm)
+            <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
+          </button>
+          <button id="inch">
+            Inches (in)
+            <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
+          </button>
         </div>
       </div>
     </header>

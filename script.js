@@ -1,3 +1,22 @@
+const switchImperialButton = document.getElementById("switch-imperial");
+const switchMetricButton = document.getElementById("switch-metric");
+
+const unitsButton = document.getElementById("units-menu-button");
+const headerDropdown = document.getElementById("header-dropdown-button");
+const unitsContainer = document.getElementById("unit-settings-dropdown");
+
+const divTemperatureUnits = document.getElementById("div-temperature-units");
+const celsiusButton = document.getElementById("celsius");
+const fahrenheitButton = document.getElementById("fahrenheit");
+
+const divSpeedUnits = document.getElementById("div-speed-units");
+const kmButton = document.getElementById("kmh");
+const mphButton = document.getElementById("mph");
+
+const divLengthUnits = document.getElementById("div-length-units");
+const millimetersButton = document.getElementById("mm");
+const inchesButton = document.getElementById("inch");
+
 const buttonSearch = document.getElementById("button-search");
 const inputText = document.getElementById("input-text");
 const results = document.getElementById("results");
@@ -30,13 +49,30 @@ const hourlyDropdownButton = document.getElementById("hourly-dropdown-button");
 
 let weatherData;
 
-async function searchForWeather(lat, long) {
+let cache = {
+  latitudeValue: 0,
+  longitudeValue: 0,
+  temperature: "celsius",
+  windSpeed: "kmh",
+  precipitation: "mm",
+};
+
+async function searchForWeather(
+  lat,
+  long,
+  unitTemp,
+  unitWindSpeed,
+  unitPrecipitation,
+) {
   const urlWeather = `https://api.open-meteo.com/v1/forecast
 ?latitude=${lat}
 &longitude=${long}
 &current_weather=true
 &hourly=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weathercode
 &daily=temperature_2m_min,temperature_2m_max,weathercode
+&temperature_unit=${unitTemp}
+&windspeed_unit=${unitWindSpeed}
+&precipitation_unit=${unitPrecipitation}
 &timezone=auto`;
 
   try {
@@ -60,12 +96,25 @@ async function searchForWeather(lat, long) {
     currentWeatherIcon.src = `assets/images/${getWeatherIcon(
       weatherData.current_weather.weathercode,
     )}`;
-    currentTemperature.textContent = `${Math.round(temperature)}°`;
 
-    currentFeelsLike.textContent = `${Math.round(feelsLike)}°`;
+    let temperatureSymbol;
+    cache.temperature == "celsius"
+      ? (temperatureSymbol = "°C")
+      : (temperatureSymbol = "°F");
+    currentTemperature.textContent = `${Math.round(temperature)}${temperatureSymbol}`;
+    currentFeelsLike.textContent = `${Math.round(feelsLike)}${temperatureSymbol}`;
+
     currentHumidity.textContent = `${Math.round(humidity)}%`;
-    currentWindSpeed.textContent = `${Math.round(windSpeed)} km/h`;
-    currentPrecipitation.textContent = `${Math.round(precipitation)} mm`;
+
+    let speedSymbol;
+    cache.windSpeed == "kmh" ? (speedSymbol = "km/h") : (speedSymbol = "mph");
+    currentWindSpeed.textContent = `${Math.round(windSpeed)} ${speedSymbol}`;
+
+    let precipitationSymbol;
+    cache.precipitation == "mm"
+      ? (precipitationSymbol = "mm")
+      : (precipitationSymbol = "''");
+    currentPrecipitation.textContent = `${Math.round(precipitation)}${precipitationSymbol}`;
 
     forecastDays.forEach((day, i) => {
       day.querySelector(".current-day").textContent = next7Days(
@@ -78,11 +127,11 @@ async function searchForWeather(lat, long) {
 
       day.querySelector(".temperature-min").textContent = `${Math.round(
         weatherData.daily.temperature_2m_min[i],
-      )}°`;
+      )}${temperatureSymbol}`;
 
       day.querySelector(".temperature-max").textContent = `${Math.round(
         weatherData.daily.temperature_2m_max[i],
-      )}°`;
+      )}${temperatureSymbol}`;
     });
 
     getForecastHourly(0);
@@ -90,6 +139,156 @@ async function searchForWeather(lat, long) {
     console.log("Erro");
   }
 }
+
+switchImperialButton.addEventListener("click", (evt) => {
+  evt.target.style.display = "none";
+  switchMetricButton.style.display = "inline-block";
+
+  setSingleSelection(divTemperatureUnits, fahrenheitButton);
+  setSingleSelection(divSpeedUnits, mphButton);
+  setSingleSelection(divLengthUnits, inchesButton);
+
+  cache.temperature = fahrenheitButton.id;
+  cache.windSpeed = mphButton.id;
+  cache.precipitation = inchesButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+switchMetricButton.addEventListener("click", (evt) => {
+  evt.target.style.display = "none";
+  switchImperialButton.style.display = "inline-block";
+
+  setSingleSelection(divTemperatureUnits, celsiusButton);
+  setSingleSelection(divSpeedUnits, kmButton);
+  setSingleSelection(divLengthUnits, millimetersButton);
+
+  cache.temperature = celsiusButton.id;
+  cache.windSpeed = kmButton.id;
+  cache.precipitation = millimetersButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+unitsButton.addEventListener("click", () => {
+  headerDropdown.classList.toggle("rotated");
+
+  if (headerDropdown.classList.contains("rotated")) {
+    headerDropdown.style.transform = `rotate(180deg)`;
+    unitsContainer.style.height = "50rem";
+    unitsContainer.style.outline = "1px solid var(--Neutral-600)";
+  } else {
+    headerDropdown.style.transform = `rotate(0deg)`;
+    unitsContainer.style.height = "0";
+    unitsContainer.style.outline = "none";
+  }
+});
+
+function setSingleSelection(div, button) {
+  Array.from(div.children).forEach((child) => {
+    if (child.classList.contains("checked")) {
+      child.classList.remove("checked");
+    }
+  });
+
+  button.classList = "checked";
+}
+
+fahrenheitButton.addEventListener("click", (evt) => {
+  setSingleSelection(divTemperatureUnits, evt.target);
+
+  cache.temperature = fahrenheitButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+celsiusButton.addEventListener("click", (evt) => {
+  setSingleSelection(divTemperatureUnits, evt.target);
+
+  cache.temperature = celsiusButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+kmButton.addEventListener("click", (evt) => {
+  setSingleSelection(divSpeedUnits, evt.target);
+
+  cache.windSpeed = kmButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+mphButton.addEventListener("click", (evt) => {
+  setSingleSelection(divSpeedUnits, evt.target);
+
+  cache.windSpeed = mphButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+millimetersButton.addEventListener("click", (evt) => {
+  setSingleSelection(divLengthUnits, evt.target);
+
+  cache.precipitation = millimetersButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
+
+inchesButton.addEventListener("click", (evt) => {
+  setSingleSelection(divLengthUnits, evt.target);
+
+  cache.precipitation = inchesButton.id;
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+});
 
 inputText.addEventListener("input", () => {
   searchForPlace(inputText.value, false);
@@ -99,10 +298,14 @@ dayItem.forEach((item) => {
   item.addEventListener("click", (evt) => {
     const arrayPostion = evt.target.id.split("-")[1];
     chosenDay.textContent = evt.target.children[0].textContent;
-    console.log(chosenDay);
+
     getForecastHourly(Number(arrayPostion));
     toggleHourlyDropdown();
   });
+});
+
+buttonSearch.addEventListener("click", () => {
+  console.log(cache);
 });
 
 btnChooseDay.addEventListener("click", (evt) => {
@@ -129,13 +332,18 @@ async function searchForPlace(locationName) {
 }
 
 function getForecastHourly(position) {
+  let temperatureSymbol;
+  cache.temperature == "celsius"
+    ? (temperatureSymbol = "°C")
+    : (temperatureSymbol = "°F");
+
   forecastHourly.forEach((divHour, i) => {
     divHour.querySelector(".hour").textContent = formatHour(
       weatherData.hourly.time[position + i],
     );
 
     divHour.querySelector(".time-temperature").innerHTML =
-      `${Math.round(weatherData.hourly.temperature_2m[position + i])}°`;
+      `${Math.round(weatherData.hourly.temperature_2m[position + i])}${temperatureSymbol}`;
 
     divHour.querySelector(".hour-image").src =
       `assets/images/${getWeatherIcon(weatherData.hourly.weathercode[position + i])}`;
@@ -247,7 +455,16 @@ function showResults(arrayResults) {
       const lat = chosenPlace.latitude;
       const long = chosenPlace.longitude;
 
-      searchForWeather(lat, long);
+      cache.latitudeValue = chosenPlace.latitude;
+      cache.longitudeValue = chosenPlace.longitude;
+
+      searchForWeather(
+        lat,
+        long,
+        cache.temperature,
+        cache.windSpeed,
+        cache.precipitation,
+      );
 
       locate.textContent = `${chosenPlace.name}, ${chosenPlace.country}`;
 
@@ -280,15 +497,24 @@ if ("geolocation" in navigator) {
     const currentLat = position.coords.latitude;
     const currentLong = position.coords.longitude;
 
+    cache.latitudeValue = position.coords.latitude;
+    cache.longitudeValue = position.coords.longitude;
+
     const currentCity = await getCity(currentLat, currentLong);
     locate.textContent = currentCity;
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     currentDate.textContent = getTodayBYCountry(timezone);
     chosenDay.textContent = getTodayBYCountry(timezone).split(",")[0];
-    searchForWeather(currentLat, currentLong);
+    searchForWeather(
+      currentLat,
+      currentLong,
+      cache.temperature,
+      cache.windSpeed,
+      cache.precipitation,
+    );
   });
 }
-//Adicionar animações
+
 //Traduzir
 //Usar teclado e search
 //Alt das imagens

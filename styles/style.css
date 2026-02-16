@@ -64,6 +64,11 @@ header > img {
   border-radius: 5px;
   color: var(--Neutral-0);
   background-color: var(--Neutral-800);
+  cursor: pointer;
+}
+
+#header-dropdown-button {
+  transition: all 0.6s ease;
 }
 
 #header-dropdown-button {
@@ -71,14 +76,99 @@ header > img {
 }
 
 #unit-settings-dropdown {
-  display: none;
+  height: 0;
+  width: 30rem;
+  overflow: hidden;
 
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 60px;
+  right: 20px;
+  transition: height 0.8s ease;
+
+  border-radius: 1rem;
+  outline: none;
+  background-color: var(--Neutral-800);
+
+  z-index: 2;
 }
 
+#switch-metric {
+  display: none;
+}
+
+#switch-imperial,
+#switch-metric {
+  width: 90%;
+  margin: 1.5rem 8px;
+  padding: 7px;
+
+  font-size: 1.8rem;
+  text-align: left;
+
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--Neutral-200);
+  background-color: var(--Neutral-800);
+}
+
+#switch-imperial:hover, #switch-metric:hover {
+  cursor: pointer;
+  transition: all 0.8s ease;
+  background-color: var(--Neutral-600);
+}
+
+#unit-settings-dropdown div {
+  width: 90%;
+  margin: auto;
+  border-bottom: 1px solid var(--Neutral-600);
+
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+#unit-settings-dropdown h1 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+
+  font-size: 1.6rem;
+  font-weight: 400;
+  
+  color: var(--Neutral-300);
+}
+
+#unit-settings-dropdown > div > button {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 7px;
+
+  font-size: 1.8rem;
+  text-align: left;
+
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--Neutral-200);
+  background-color: var(--Neutral-800);
+}
+
+#unit-settings-dropdown > div > button:hover {
+  cursor: pointer;
+  transition: all 0.8s ease;
+  background-color: var(--Neutral-600);
+}
+
+#unit-settings-dropdown > div > button.checked {
+  background-color: var(--Neutral-600);
+}
+
+#unit-settings-dropdown button > img {
+  display: none;
+}
+
+#unit-settings-dropdown button.checked > img {
+  display: block;
+}
+ 
 body > h1 {
   width: 85%;
   margin: 3rem auto;
