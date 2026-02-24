@@ -19,7 +19,7 @@
       <img src="assets/images/logo.svg" alt="logo" />
       <div id="units-menu-button">
         <img src="assets/images/icon-units.svg" alt="Icon Units" />
-        <p>Units</p>
+        <p data-i18n="units">Units</p>
         <img
           src="assets/images/icon-dropdown.svg"
           alt="Dropdown"
@@ -27,21 +27,21 @@
         />
       </div>
       <div id="unit-settings-dropdown">
-        <button id="switch-imperial">Switch to Imperial</button>
-        <button id="switch-metric">Switch to Metric</button>
+        <button id="switch-imperial" data-i18n="switchToImperial">Switch to Imperial</button>
+        <button id="switch-metric" data-i18n="switchToMetric">Switch to Metric</button>
         <div id="div-temperature-units">
-          <h1>Temperature</h1>
-          <button class="checked" id="celsius">
+          <h1 data-i18n="temperature">Temperature</h1>
+          <button class="checked" id="celsius" data-i18n="celsius">
             Celsius (°C)
             <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
           </button>
-          <button id="fahrenheit">
+          <button id="fahrenheit" data-i18n="fahrenheit">
             Fahrenheit (°F)
             <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
           </button>
         </div>
         <div id="div-speed-units">
-          <h1>Wind Speed</h1>
+          <h1 data-i18n="windSpeed">Wind Speed</h1>
           <button class="checked" id="kmh">
             km/h
             <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
@@ -52,12 +52,12 @@
           </button>
         </div>
         <div id="div-length-units">
-          <h1>Precipitation</h1>
-          <button class="checked" id="mm">
+          <h1 data-i18n="precipitation">Precipitation</h1>
+          <button class="checked" id="mm" data-i18n="millimeters">
             Millimeters (mm)
             <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
           </button>
-          <button id="inch">
+          <button id="inch" data-i18n="inches">
             Inches (in)
             <img src="assets/images/icon-checkmark.svg" alt="icon-checkmark" />
           </button>
@@ -65,7 +65,7 @@
       </div>
     </header>
 
-    <h1>How's the sky looking today?</h1>
+    <h1 data-i18n="title">How's the sky looking today?</h1>
 
     <section id="section-search">
       <div id="div-search">
@@ -74,9 +74,10 @@
           type="text"
           placeholder="Search for a place..."
           id="input-text"
+          data-i18n="placeholder"
         />
       </div>
-      <button id="button-search">Search</button>
+      <button id="button-search" data-i18n="button">Search</button>
       <div id="results"></div>
     </section>
 
@@ -91,7 +92,7 @@
           <p id="temperature"></p>
         </div>
 
-        <div class="loading">
+        <div class="loading" data-i18n="loading">
           Loading...
           <span class="dots">
             <span>.</span>
@@ -103,25 +104,25 @@
 
       <section id="weather-details">
         <div id="weather-item">
-          <p>Feels Like</p>
+          <p data-i18n="feelsLike">Feels Like</p>
           <span id="feels-like-value">_</span>
         </div>
         <div id="weather-item">
-          <p>Humidity</p>
+          <p data-i18n="humidity">Humidity</p>
           <span id="humidity-value">_</span>
         </div>
         <div id="weather-item">
-          <p>Wind</p>
+          <p data-i18n="wind">Wind</p>
           <span id="wind-speed-value">_</span>
         </div>
         <div id="weather-item">
-          <p>Precipitation</p>
+          <p data-i18n="precipitation">Precipitation</p>
           <span id="precipitation-value">_</span>
         </div>
       </section>
 
       <section id="daily-forecast">
-        <h1>Daily forecast</h1>
+        <h1 data-i18n="daily">Daily forecast</h1>
         <div id="forecast-days">
           <div class="div-day">
             <p class="current-day"></p>
@@ -184,7 +185,7 @@
 
       <section id="hourly-forecast">
         <header id="hourly-forecast-header">
-          <h1>Hourly forecast</h1>
+          <h1 data-i18n="hourly">Hourly forecast</h1>
           <div id="div-choose-day">
             <p id="chosen-day">-</p>
             <img
@@ -388,6 +389,10 @@
           </div>
         </div>
       </section>
+    </div>
+    <div id="switch-language">
+      <button id="button-portuguese">BR</button>
+      <button id="button-english">USA</button>
     </div>
 
     <div class="attribution">

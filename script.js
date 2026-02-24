@@ -47,6 +47,11 @@ const itemName = document.querySelectorAll(".item-name");
 const btnChooseDay = document.getElementById("div-choose-day");
 const hourlyDropdownButton = document.getElementById("hourly-dropdown-button");
 
+const btnPt = document.getElementById("button-portuguese");
+const btnEn = document.getElementById("button-english");
+
+let languageFormat = "en-us";
+
 let weatherData;
 
 let cache = {
@@ -55,6 +60,7 @@ let cache = {
   temperature: "celsius",
   windSpeed: "kmh",
   precipitation: "mm",
+  timezone: "America/Cayenne"
 };
 
 async function searchForWeather(
@@ -78,8 +84,10 @@ async function searchForWeather(
   try {
     const weatherResponse = await fetch(urlWeather);
     weatherData = await weatherResponse.json();
-
     loadingElement.style.display = "none";
+
+    cache.timezone = weatherData.timezone;
+
     const feelsLike =
       weatherData.hourly.apparent_temperature[
         horaTimezone(weatherData.timezone)
@@ -120,6 +128,7 @@ async function searchForWeather(
       day.querySelector(".current-day").textContent = next7Days(
         weatherData.daily.time,
         true,
+        languageFormat,
       )[i];
 
       day.querySelector(".current-day-image").src =
@@ -291,7 +300,7 @@ inchesButton.addEventListener("click", (evt) => {
 });
 
 inputText.addEventListener("input", () => {
-  searchForPlace(inputText.value, false);
+  searchForPlace(inputText.value);
 });
 
 dayItem.forEach((item) => {
@@ -310,7 +319,7 @@ buttonSearch.addEventListener("click", () => {
 
 btnChooseDay.addEventListener("click", (evt) => {
   toggleHourlyDropdown();
-  const arrayDays = next7Days(weatherData.daily.time, false);
+  const arrayDays = next7Days(weatherData.daily.time, false, languageFormat);
 
   arrayDays.forEach((day, i) => {
     dayItem[i].id = `day-${i * 24}`;
@@ -319,7 +328,7 @@ btnChooseDay.addEventListener("click", (evt) => {
 });
 
 async function searchForPlace(locationName) {
-  const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=5&language=us&format=json`;
+  const urlLocation = `https://geocoding-api.open-meteo.com/v1/search?name=${locationName}&count=5&language=${languageFormat === "en-us" ? "en" : "pt"}&format=json`;
 
   try {
     const locationResponse = await fetch(urlLocation);
@@ -364,8 +373,9 @@ function toggleHourlyDropdown() {
   }
 }
 
-function getTodayBYCountry(timeZone) {
-  return new Intl.DateTimeFormat("en-us", {
+function getTodayBYCountry(timeZone, languageFormat) {
+  console.log("oi");
+  return new Intl.DateTimeFormat(languageFormat, {
     timeZone,
     weekday: "long",
     month: "short",
@@ -374,12 +384,12 @@ function getTodayBYCountry(timeZone) {
   }).format(new Date());
 }
 
-function next7Days(datas, isShort) {
+function next7Days(datas, isShort, languageFormat) {
   return datas.map((data) => {
     const [ano, mes, dia] = data.split("-");
     const date = new Date(ano, mes - 1, dia);
 
-    return new Intl.DateTimeFormat("en-us", {
+    return new Intl.DateTimeFormat(languageFormat, {
       weekday: isShort == true ? "short" : "long",
     }).format(date);
   });
@@ -442,7 +452,8 @@ function showResults(arrayResults) {
 
     const cityAndCountry = document.createElement("p");
     cityAndCountry.id = i;
-    cityAndCountry.textContent = `${result.name} - ${result.admin1}`;
+    cityAndCountry.textContent = result.admin1 === undefined ? `${result.name}` : `${result.name} - ${result.admin1}`;
+    
 
     divResult.appendChild(flagImg);
     divResult.appendChild(cityAndCountry);
@@ -466,9 +477,12 @@ function showResults(arrayResults) {
         cache.precipitation,
       );
 
-      locate.textContent = `${chosenPlace.name}, ${chosenPlace.country}`;
+      locate.textContent = result.admin1 === undefined ? `${chosenPlace.name}` : `${chosenPlace.name}, ${chosenPlace.country}`;
 
-      const stringcurrentDate = getTodayBYCountry(chosenPlace.timezone);
+      const stringcurrentDate = getTodayBYCountry(
+        chosenPlace.timezone,
+        languageFormat,
+      );
       currentDate.textContent = stringcurrentDate;
 
       chosenDay.textContent = stringcurrentDate.split(",")[0];
@@ -485,7 +499,7 @@ function selectDay() {}
 
 async function getCity(lat, long) {
   const response = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`,
+    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json&accept-language=${languageFormat}`,
   );
   const data = await response.json();
 
@@ -503,8 +517,10 @@ if ("geolocation" in navigator) {
     const currentCity = await getCity(currentLat, currentLong);
     locate.textContent = currentCity;
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    currentDate.textContent = getTodayBYCountry(timezone);
-    chosenDay.textContent = getTodayBYCountry(timezone).split(",")[0];
+    currentDate.textContent = getTodayBYCountry(timezone, languageFormat);
+    chosenDay.textContent = getTodayBYCountry(timezone, languageFormat).split(
+      ",",
+    )[0];
     searchForWeather(
       currentLat,
       currentLong,
@@ -515,10 +531,129 @@ if ("geolocation" in navigator) {
   });
 }
 
-//Traduzir
+btnPt.addEventListener("click", () => changeLanguage("pt", "pt-br"));
+btnEn.addEventListener("click", () => changeLanguage("en", "en-US"));
+
+function changeLanguage(lang, format) {
+  languageFormat = format;
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.getAttribute("data-i18n");
+    if (element.tagName === "INPUT" && key === "placeholder") {
+      element.setAttribute("placeholder", translations[lang][key]);
+    } else {
+      element.textContent = translations[lang][key];
+    }
+
+  });
+
+  searchForWeather(
+    cache.latitudeValue,
+    cache.longitudeValue,
+    cache.temperature,
+    cache.windSpeed,
+    cache.precipitation,
+  );
+
+  currentDate.textContent = getTodayBYCountry(cache.timezone, languageFormat);
+  chosenDay.textContent = getTodayBYCountry(cache.timezone, languageFormat).split(
+    ",",
+  )[0];
+
+  // const currentCity = await getCity(cache.latitudeValue, cache.longitudeValue);
+  // locate.textContent = currentCity;
+}
+
+const translations = {
+  en: {
+    locale: "en-US",
+    units: "Units",
+    switchToImperial: "Switch to Imperial",
+    switchToMetric: "Switch to Metric",
+    temperature: "Temperature",
+    windSpeed: "Wind Speed",
+    precipitation: "Precipitation",
+    celsius: "Celsius (°C)",
+    fahrenheit: "Fahrenheit (°F)",
+    kmh: "km/h",
+    mph: "mph",
+    millimeters: "Millimeters (mm)",
+    inches: "Inches (in)",
+
+    title: "How's the sky looking today?",
+
+    placeholder: "Search for a place...",
+    button: "Search",
+    noResults: "No locations found",
+
+    loading: "Loading...",
+
+    feelsLike: "Feels Like",
+    humidity: "Humidity",
+    wind: "Wind",
+    precipitation: "Precipitation",
+
+    daily: "Daily forecast",
+    hourly: "Hourly forecast",
+
+    time: {
+      am: "AM",
+      pm: "PM",
+    },
+
+    errors: {
+      generic: "Something went wrong",
+      location: "Unable to fetch location",
+    },
+  },
+
+  pt: {
+    locale: "pt-BR",
+
+    units: "Unidades",
+    switchToImperial: "Mudar para Imperial",
+    switchToMetric: "Mudar para Métrico",
+    temperature: "Temperatura",
+    windSpeed: "Velocidade do vento",
+    precipitation: "Precipitação",
+    celsius: "Celsius (°C)",
+    fahrenheit: "Fahrenheit (°F)",
+    kmh: "km/h",
+    mph: "mph",
+    millimeters: "Milímetros (mm)",
+    inches: "Polegadas (in)",
+    title: "Como está o céu hoje?",
+
+    placeholder: "Pesquisar um local...",
+    button: "Pesquisar",
+    noResults: "Nenhum local encontrado",
+
+    loading: "Carregando...",
+
+    feelsLike: "Sensação térmica",
+    humidity: "Umidade",
+    wind: "Vento",
+    precipitation: "Precipitação",
+
+    daily: "Previsão diária",
+    hourly: "Por hora",
+
+    time: {
+      am: "AM",
+      pm: "PM",
+    },
+
+    errors: {
+      generic: "Algo deu errado",
+      location: "Não foi possível obter a localização",
+    },
+  },
+};
+
+//Traduzir local atual trocando api
 //Usar teclado e search
 //Alt das imagens
 //Imagens dia e noite
+
 //Layout mobile
 //descolar scrollbar
-//Undefined em nome de país
