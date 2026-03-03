@@ -236,6 +236,10 @@ section {
   cursor: pointer;
 }
 
+#results > .checked {
+  background-color: var(--Neutral-600);
+}
+
 #results > div > p,
 #results > div > img {
   pointer-events: none;

@@ -50,6 +50,8 @@ const hourlyDropdownButton = document.getElementById("hourly-dropdown-button");
 const btnPt = document.getElementById("button-portuguese");
 const btnEn = document.getElementById("button-english");
 
+let index = 0;
+
 let languageFormat = "en-us";
 
 let weatherData;
@@ -60,7 +62,7 @@ let cache = {
   temperature: "celsius",
   windSpeed: "kmh",
   precipitation: "mm",
-  timezone: "America/Cayenne"
+  timezone: "America/Cayenne",
 };
 
 async function searchForWeather(
@@ -300,7 +302,11 @@ inchesButton.addEventListener("click", (evt) => {
 });
 
 inputText.addEventListener("input", () => {
-  searchForPlace(inputText.value);
+  searchForPlace(inputText.value.trim());
+  if (inputText.value.trim() == "") {
+    results.style.display = "none";
+    index = 0;
+  }
 });
 
 dayItem.forEach((item) => {
@@ -452,13 +458,27 @@ function showResults(arrayResults) {
 
     const cityAndCountry = document.createElement("p");
     cityAndCountry.id = i;
-    cityAndCountry.textContent = result.admin1 === undefined ? `${result.name}` : `${result.name} - ${result.admin1}`;
-    
+    cityAndCountry.textContent =
+      result.admin1 === undefined
+        ? `${result.name}`
+        : `${result.name} - ${result.admin1}`;
 
     divResult.appendChild(flagImg);
     divResult.appendChild(cityAndCountry);
 
     results.appendChild(divResult);
+
+    results.children[0].classList += " checked";
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        const activeItem = results.querySelector(".checked");
+
+        if (activeItem) {
+          activeItem.click();
+        }
+      }
+    });
 
     divResult.addEventListener("click", (evt) => {
       const chosenPlace = arrayResults[evt.target.children[1].id];
@@ -477,7 +497,10 @@ function showResults(arrayResults) {
         cache.precipitation,
       );
 
-      locate.textContent = result.admin1 === undefined ? `${chosenPlace.name}` : `${chosenPlace.name}, ${chosenPlace.country}`;
+      locate.textContent =
+        result.admin1 === undefined
+          ? `${chosenPlace.name}`
+          : `${chosenPlace.name}, ${chosenPlace.country}`;
 
       const stringcurrentDate = getTodayBYCountry(
         chosenPlace.timezone,
@@ -491,16 +514,53 @@ function showResults(arrayResults) {
       results.innerHTML = "";
     });
   });
-
   results.style.display = "flex";
 }
 
-function selectDay() {}
+document.addEventListener("keydown", (evt) => {
+  if (results.style.display === "flex") {
+    if (evt.key === "ArrowUp") {
+      Array.from(results.children).forEach((div) => {
+        if (div.classList.contains("checked")) {
+          div.classList.remove("checked");
+        }
+      });
+      if (index > 0) {
+        index--;
+        results.children[index].classList += " checked";
+      } else {
+        results.children[index].classList += " checked";
+      }
+    }
+
+    if (evt.key === "ArrowDown") {
+      evt.preventDefault();
+      Array.from(results.children).forEach((div) => {
+        if (div.classList.contains("checked")) {
+          div.classList.remove("checked");
+        }
+      });
+      if (index < results.children.length - 1) {
+        index++;
+        results.children[index].classList += " checked";
+      } else {
+        results.children[index].classList += " checked";
+      }
+    }
+  }
+});
 
 async function getCity(lat, long) {
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json&accept-language=${languageFormat}`,
+  // const response = await fetch(
+  //   `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json&accept-language=${languageFormat}`,
+  // );
+  // const data = await response.json();
+
+  // return `${data.address.city || data.address.town || data.address.village}, ${data.address.country}`;
+ const response = await fetch(
+    `http://localhost:3000/reverse?lat=${lat}&lon=${long}&lang=${languageFormat}`,
   );
+
   const data = await response.json();
 
   return `${data.address.city || data.address.town || data.address.village}, ${data.address.country}`;
@@ -534,7 +594,7 @@ if ("geolocation" in navigator) {
 btnPt.addEventListener("click", () => changeLanguage("pt", "pt-br"));
 btnEn.addEventListener("click", () => changeLanguage("en", "en-US"));
 
-function changeLanguage(lang, format) {
+async function changeLanguage(lang, format) {
   languageFormat = format;
 
   document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -544,7 +604,6 @@ function changeLanguage(lang, format) {
     } else {
       element.textContent = translations[lang][key];
     }
-
   });
 
   searchForWeather(
@@ -556,12 +615,13 @@ function changeLanguage(lang, format) {
   );
 
   currentDate.textContent = getTodayBYCountry(cache.timezone, languageFormat);
-  chosenDay.textContent = getTodayBYCountry(cache.timezone, languageFormat).split(
-    ",",
-  )[0];
+  chosenDay.textContent = getTodayBYCountry(
+    cache.timezone,
+    languageFormat,
+  ).split(",")[0];
 
-  // const currentCity = await getCity(cache.latitudeValue, cache.longitudeValue);
-  // locate.textContent = currentCity;
+  const currentCity = await getCity(cache.latitudeValue, cache.longitudeValue);
+  locate.textContent = currentCity;
 }
 
 const translations = {
@@ -650,8 +710,7 @@ const translations = {
   },
 };
 
-//Traduzir local atual trocando api
-//Usar teclado e search
+//diminuir function do teclado
 //Alt das imagens
 //Imagens dia e noite
 
