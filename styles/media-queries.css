@@ -19,6 +19,10 @@
     font-size: 6rem;
   }
 
+  body > header {
+    max-width: 160rem;
+  }
+
   section {
     width: auto;
     margin: 0;
@@ -27,6 +31,7 @@
   #container {
     height: calc(1190px - 365px);
     width: 85%;
+    max-width: 160rem;
     margin: auto;
     display: flex;
     flex-flow: column wrap;
@@ -74,13 +79,39 @@
 
   #current-weather {
     height: 32rem;
-    width: 89.5rem;
+    /* width: 89.5rem; */
+    width: 69.5%;
+    max-width: 110rem;
     margin-top: 5rem;
     background-image: url("../assets/images/bg-today-large.svg");
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 12.5rem;
+  }
+
+  #div-city-info > h1{
+    font-size: 3.6rem;
+  }
+
+  #div-city-info > p{
+    font-size: 2.4rem;
+    text-align: left;
+  }
+
+  #current-temperature {
+    font-size: 8rem;
+  }
+
+  #current-temperature > img {
+    width: 13rem;
   }
 
   #weather-details {
-    width: 89.5rem;
+    /* width: 89.5rem; */
+    width: 69.5%;
+    max-width: 110rem;
     height: fit-content;
     margin-top: 4rem;
   }
@@ -93,8 +124,10 @@
   }
 
   #daily-forecast {
-    width: 89.5rem;
+    /* width: 89.5rem; */
     margin-top: 5rem;
+    width: 69.5%;
+    max-width: 110rem;
     /* border: 1px solid red; */
   }
 
@@ -114,17 +147,24 @@
     font-size: 2rem;
   }
 
-  #div-day > div {
-    font-size: 1.8rem;
+  .div-day > div {
+    font-size: 1.6rem;
   }
 
   /*  */
 
+  #week-days-container {
+    top: 4.5rem;
+  }
+
   #hourly-forecast {
-    width: 36rem;
+    /* width: 36rem; */
+    width: 27.5%;
+    max-width: 44rem;
     height: 77.4rem;
     margin-top: 5rem;
     margin-bottom: 0;
+    margin-left: auto;
   }
 
   #hourly-forecast-header {
@@ -168,7 +208,16 @@
     margin-right: 2rem;
   }
 
+  #switch-language {
+    width: 100px;
+    position: fixed;
+    top: 1px;
+    left: calc(100% - 100px);
+    gap: 1rem;
+  }
+
   .loading {
-    top: -8rem;
+    top: -0rem;
+    left: -30rem;
   }
 }

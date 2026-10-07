@@ -103,8 +103,10 @@ async function searchForWeather(
       weatherData.hourly.precipitation[horaTimezone(weatherData.timezone)];
     const temperature = weatherData.current_weather.temperature;
 
+    console.log(weatherData.current_weather.is_day);
+
     currentWeatherIcon.src = `assets/images/${getWeatherIcon(
-      weatherData.current_weather.weathercode,
+      weatherData.current_weather.weathercode, weatherData.current_weather.is_day
     )}`;
 
     let temperatureSymbol;
@@ -134,7 +136,7 @@ async function searchForWeather(
       )[i];
 
       day.querySelector(".current-day-image").src =
-        `assets/images/${getWeatherIcon(weatherData.daily.weathercode[i])}`;
+        `assets/images/${getWeatherIcon(weatherData.daily.weathercode[i], 1)}`;
 
       day.querySelector(".temperature-min").textContent = `${Math.round(
         weatherData.daily.temperature_2m_min[i],
@@ -361,7 +363,7 @@ function getForecastHourly(position) {
       `${Math.round(weatherData.hourly.temperature_2m[position + i])}${temperatureSymbol}`;
 
     divHour.querySelector(".hour-image").src =
-      `assets/images/${getWeatherIcon(weatherData.hourly.weathercode[position + i])}`;
+      `assets/images/${getWeatherIcon(weatherData.hourly.weathercode[position + i], i < 6 || i > 17 ? 0 : 1)}`;
   });
 }
 
@@ -418,10 +420,10 @@ function horaTimezone(timezone) {
   return hora;
 }
 
-function getWeatherIcon(code) {
+function getWeatherIcon(code, isDay) {
   // Céu limpo / poucas nuvens
-  if (code === 0) return "icon-sunny.webp";
-  if (code === 1 || code === 2) return "icon-partly-cloudy.webp";
+  if (code === 0) return isDay === 1 ? "icon-sunny.webp" : "icon-moon.webp";
+  if (code === 1 || code === 2) return isDay === 1 ? "icon-partly-cloudy.webp" : "partly-cloudy-moon.webp";
   if (code === 3) return "icon-overcast.webp";
 
   // Nevoeiro
@@ -710,9 +712,8 @@ const translations = {
   },
 };
 
-//diminuir function do teclado
-//Alt das imagens
-//Imagens dia e noite
 
-//Layout mobile
+//Alt das imagens
+//separar em modulos
+
 //descolar scrollbar

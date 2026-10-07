@@ -27,8 +27,12 @@
         />
       </div>
       <div id="unit-settings-dropdown">
-        <button id="switch-imperial" data-i18n="switchToImperial">Switch to Imperial</button>
-        <button id="switch-metric" data-i18n="switchToMetric">Switch to Metric</button>
+        <button id="switch-imperial" data-i18n="switchToImperial">
+          Switch to Imperial
+        </button>
+        <button id="switch-metric" data-i18n="switchToMetric">
+          Switch to Metric
+        </button>
         <div id="div-temperature-units">
           <h1 data-i18n="temperature">Temperature</h1>
           <button class="checked" id="celsius" data-i18n="celsius">
@@ -193,6 +197,29 @@
               alt="Dropdow"
               id="hourly-dropdown-button"
             />
+          </div>
+          <div id="week-days-container">
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
+            <div class="div-day-item">
+              <p class="item-name"></p>
+            </div>
           </div>
         </header>
         <div id="forecast-hours">
@@ -365,39 +392,17 @@
             <p class="time-temperature"></p>
           </div>
         </div>
-        <div id="week-days-container">
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-          <div class="div-day-item">
-            <p class="item-name"></p>
-          </div>
-        </div>
       </section>
     </div>
     <div id="switch-language">
-      <button id="button-portuguese">BR</button>
-      <button id="button-english">USA</button>
+      <button class="button-switch-language" id="button-portuguese"><img src="assets/images/brazil-flag.png" alt=""></button>
+      <button class="button-switch-language" id="button-english"><img src="assets/images/usa-flag.png" alt=""></button>
     </div>
 
-    <div class="attribution">
+    <!-- <div class="attribution">
       Coded by <a href="https://github.com/kaueOliveira">Kauê Oliveira</a>.
-    </div>
+    </div> -->
   </body>
-  <script src="script.js"></script>
+  <!-- <script src="script.js"></script> -->
+  <script type="module" src="scripts/main.js"></script>
 </html>
